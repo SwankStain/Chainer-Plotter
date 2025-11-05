@@ -1,0 +1,36 @@
+{
+  "food": {
+    "Birds": {
+      "produces": "eggs",
+      "recipe": [
+        { "type": "seeds", "name": "corn", "quantity": 1 },
+        { "type": "seeds", "name": "peas", "quantity": 1 }
+      ],
+      "yield": 3
+    },
+    "Cattle": {
+      "produces": "milk",
+      "recipe": [
+        { "type": "seeds", "name": "corn", "quantity": 4 },
+        { "type": "seeds", "name": "peas", "quantity": 4 }
+      ],
+      "yield": 3
+    },
+    "Fuzzies": {
+      "produces": "wool",
+      "recipe": [
+        { "type": "seeds", "name": "cabbage", "quantity": 4 },
+        { "type": "seeds", "name": "radish", "quantity": 4 }
+      ],
+      "yield": 3
+    },
+    "Pigs": {
+      "produces": "truffles",
+      "recipe": [
+        { "type": "seeds", "name": "mangold", "quantity": 1, "rarity": "legendary" },
+        { "type": "products", "name": "milk", "quantity": 1, "rarity": "legendary" }
+      ],
+      "yield": 1
+    }
+  }
+}

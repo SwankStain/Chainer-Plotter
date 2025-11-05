@@ -1,0 +1,32 @@
+{
+  "animals": {
+    "Bird": {
+      "White Chicken": { "grow_time": 30, "products": 1, "produces": "Eggs", "in_stock": true, "price": 600, "usdt": 15, "merge_cost": 0, "item_req": 0},
+      "Brown Chicken": { "grow_time": 30, "products": 2, "produces": "Eggs", "in_stock": true, "price": 1220, "usdt": 30.5, "merge_cost": 30, "item_req": "3x Uncommon Bird Food"},
+      "Brown Turkey": { "grow_time": 30, "products": 4, "produces": "Eggs", "in_stock": true, "price": 2510, "usdt": 62.75, "merge_cost": 75, "item_req": "7x Rare Bird Food"},
+      "Blue Turkey": { "grow_time": 30, "products": 8, "produces": "Eggs", "in_stock": true, "price": 0, "usdt": 130, "merge_cost": 250, "item_req": "14x Epic Bird Food"},
+      "White Ostrich": { "grow_time": 30, "products": 16, "produces": "Eggs", "in_stock": false, "price": 0, "usdt": 0, "merge_cost": 700, "item_req": "30x Legendary Bird Food"},
+      "icon": "🐔"
+    },
+    "Cattle": {
+      "Brown Goat": { "grow_time": 110, "products": 1, "produces": "Milk", "in_stock": true, "price": 900, "usdt": 22.5, "merge_cost": 0, "item_req": 0},
+      "Grey Goat": { "grow_time": 110, "products": 2, "produces": "Milk", "in_stock": true, "price": 1840, "usdt": 46, "merge_cost": 45, "item_req": "5x Uncommon Cattle Food"},
+      "Brown Cow": { "grow_time": 110, "products": 4, "produces": "Milk", "in_stock": true, "price": 3800, "usdt": 95, "merge_cost": 150, "item_req": "12x Rare Cattle Food"},
+      "White Cow": { "grow_time": 110, "products": 8, "produces": "Milk", "in_stock": true, "price": 0, "usdt": 200, "merge_cost": 500, "item_req": "27x Epic Cattle Food"},
+      "Black Buffalo": { "grow_time": 110, "products": 16, "produces": "Milk", "in_stock": false, "price": 0, "usdt": 0, "merge_cost": 1300, "item_req": "58x Legendary Cattle Food"},
+      "icon": "🐮"
+    },
+    "Fuzzies": {
+      "Chinchilla": { "grow_time": 210, "products": 1, "produces": "Wool", "in_stock": true, "price": 1000, "usdt": 25, "merge_cost": 0, "item_req": 0},
+      "Angora Rabbit": { "grow_time": 210, "products": 2, "produces": "Wool", "in_stock": true, "price": 2040, "usdt": 51, "merge_cost": 50, "item_req": "2x Uncommon Fuzzies Food"},
+      "Black Sheep": { "grow_time": 210, "products": 4, "produces": "Wool", "in_stock": true, "price": 4260, "usdt": 106.5, "merge_cost": 200, "item_req": "14x Rare Fuzzies Food"},
+      "Alpaca": { "grow_time": 210, "products": 8, "produces": "Wool", "in_stock": true, "price": 0, "usdt": 225, "merge_cost": 600, "item_req": "29x Epic Fuzzies Food"},
+      "Camel": { "grow_time": 210, "products": 16, "produces": "Wool", "in_stock": false, "price": 0, "usdt": 0, "merge_cost": 1500, "item_req": "60x Legendary Fuzzies Food"},
+      "icon": "🐰"
+    },
+    "Pigs": {
+      "Charlotte": { "grow_time": 240, "products": 1, "produces": "Truffle", "in_stock": false, "price": 0, "usdt": 0, "merge_cost": 0, "item_req": 0},
+      "icon": "🐷"
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "products": {
+    "eggs": {
+      "Common": {
+        "grow_time": 30,
+        "bio_points": 18.3
+      },
+      "Uncommon": {
+        "grow_time": 30,
+        "bio_points": 63
+      },
+      "Rare": {
+        "grow_time": 30,
+        "bio_points": 91
+      },
+      "Epic": {
+        "grow_time": 30,
+        "bio_points": 123
+      },
+      "Legendary": {
+        "grow_time": 30,
+        "bio_points": 224
+      }
+    },
+    "milk": {
+      "Common": {
+        "grow_time": 80,
+        "bio_points": 272
+      },
+      "Uncommon": {
+        "grow_time": 80,
+        "bio_points": 466
+      },
+      "Rare": {
+        "grow_time": 80,
+        "bio_points": 661
+      },
+      "Epic": {
+        "grow_time": 80,
+        "bio_points": 855
+      },
+      "Legendary": {
+        "grow_time": 80,
+        "bio_points": 1516
+      }
+    },
+    "wool": {
+      "Common": {
+        "grow_time": 230,
+        "bio_points": 469
+      },
+      "Uncommon": {
+        "grow_time": 230,
+        "bio_points": 863
+      },
+      "Rare": {
+        "grow_time": 230,
+        "bio_points": 1334
+      },
+      "Epic": {
+        "grow_time": 230,
+        "bio_points": 2194
+      },
+      "Legendary": {
+        "grow_time": 230,
+        "bio_points": 3526
+      }
+    },
+    "truffles": {
+      "Common": {
+        "grow_time": 240,
+        "bio_points": 4100
+      }
+    }
+  }
+}

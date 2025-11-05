@@ -1,0 +1,54 @@
+{
+  "plots": {
+    "Cardboard": { 
+      "multiplier": 1, 
+      "color": "#8B7355", 
+      "icon": "🟫",
+      "in_stock": true,
+      "merge_cost": 0,
+      "fert_req": 0,
+      "price": 60,
+      "usdt": 1.50
+    },
+    "Wood": { 
+      "multiplier": 2, 
+      "color": "#A0522D", 
+      "icon": "🔲",
+      "in_stock": true,
+      "merge_cost": 25,
+      "fert_req": 10,
+      "price": 220,
+      "usdt": 5.50
+    },
+    "Plastic": { 
+      "multiplier": 4, 
+      "color": "#00CED1", 
+      "icon": "🟦",
+      "in_stock": true,
+      "merge_cost": 65,
+      "fert_req": 22,
+      "price": 700,
+      "usdt": 17.50
+    },
+    "Metal": { 
+      "multiplier": 8, 
+      "color": "#C0C0C0", 
+      "icon": "🟦",
+      "in_stock": false,
+      "merge_cost": 200,
+      "fert_req": 47,
+      "price": 0,
+      "usdt": 0
+    },
+    "Stone": { 
+      "multiplier": 16, 
+      "color": "#696969", 
+      "icon": "🟦",
+      "in_stock": false,
+      "merge_cost": 650,
+      "fert_req": 98,
+      "price": 0,
+      "usdt": 0
+    }
+  }
+}

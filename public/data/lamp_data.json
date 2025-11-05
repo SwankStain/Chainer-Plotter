@@ -1,0 +1,34 @@
+{
+  "lamps": {
+    "Common": { 
+      "time_reduce": 3, 
+      "chance": 3,
+      "plot_bonus": 2.05,
+      "color": "#8B7355", 
+      "icon": "💡",
+      "in_stock": true,
+      "price": 300,
+      "usdt": 7.50
+    },
+    "Uncommon": { 
+      "time_reduce": 7, 
+      "chance": 7, 
+      "plot_bonus": 2.15,
+      "color": "#A0522D", 
+      "icon": "💡",
+      "in_stock": true,
+      "price": 0,
+      "usdt": 14.90
+    },
+    "Rare": { 
+      "time_reduce": 15, 
+      "chance": 15, 
+      "plot_bonus": 2.35,
+      "color": "#00CED1", 
+      "icon": "💡",
+      "in_stock": true,
+      "price": 0,
+      "usdt": 29.75
+    }
+  }
+}

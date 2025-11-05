@@ -1,0 +1,5 @@
+{
+  "Auto Harvesters": {
+    "Cropper": { "price": 1000, "in_stock": true, "icon": "🤖" }
+  }
+}

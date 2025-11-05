@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chainers Plot Planner</title>
+  <meta name="theme-color" content="#353b6d">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link href="styles/styles.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">⛓️ Chainers Plotter</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <div class="d-flex align-items-center gap-2 ms-auto">
+            <div class="d-flex align-items-center">
+              <label class="nav-link mb-0 pe-2" for="farm-select">Profile:</label>
+              <select id="farm-select" class="form-select form-select-sm"></select>
+            </div>
+            <button id="save-btn" class="btn btn-primary btn-sm">💾 Save</button>
+            <button id="load-btn" class="btn btn-primary btn-sm">📂 Load</button>
+            <button id="delete-btn" class="btn btn-danger btn-sm">🗑️ Delete</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Stats Bar integrated into navbar -->
+      <div class="stats-bar-integrated">
+        <div class="stat-item">
+          <span class="stat-label">Seeds</span>
+          <div class="stat-content">
+            <span class="stat-icon">🌱</span>
+            <span class="stat-value" id="nav-total-seeds">0</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Plots</span>
+          <div class="stat-content">
+            <span class="stat-icon">📦</span>
+            <span class="stat-value" id="nav-total-plots">0</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Lamps</span>
+          <div class="stat-content">
+            <span class="stat-icon">💡</span>
+            <span class="stat-value" id="nav-total-lamps">0</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Animals</span>
+          <div class="stat-content">
+            <span class="stat-icon">🐮</span>
+            <span class="stat-value" id="nav-total-animals">0</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Stock Value</span>
+          <div class="stat-content">
+            <span class="stat-icon">🪙</span>
+            <span class="stat-value" id="nav-total-value">0</span>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+
+  <main class="container mt-4">
+
+    <!-- PAGE SELECTORS -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#seeds-tab">🌱 Seeds</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#plots-tab">📦 Plots</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#lamps-tab">💡 Lamps</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#animals-tab">🐮 Animals</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#strategy-tab">📊 Strategy</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#shop-tab">🏪 Shop</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#faq-tab">❓ FAQ</button>
+      </li>
+    </ul>
+
+
+    <div class="tab-content mt-3">
+      <div class="tab-pane fade show active" id="seeds-tab">
+
+        <!-- --- Filter Section --  -->
+        <div class="card mb-3" id="seeds-filter-bar">
+          <div class="card-body">
+            <div class="shop-filters-container">
+              <div class="filter-group">
+                <label for="sort-select" class="filter-label">Sort by:</label>
+                <div class="filter-buttons">
+                  <select id="sort-select" class="form-select form-select-sm shop-sort-select">
+                    <option value="grow_time">Time</option>
+                    <option value="common_bp">Common BP/m</option>
+                    <option value="uncommon_bp">Uncommon BP/m</option>
+                    <option value="rare_bp">Rare BP/m</option>
+                    <option value="epic_bp">Epic BP/m</option>
+                    <option value="legendary_bp">Legendary BP/m</option>
+                  </select>
+                  <button id="sort-direction-btn" class="menu-toggle-btn" title="Toggle sort direction">
+                    ⬆️
+                  </button>
+                </div>
+              </div>
+              
+              <div class="filter-group">
+                <label class="filter-label">Filters:</label>
+                <div class="filter-buttons">
+                  <button id="seasonal-toggle" class="menu-toggle-btn">☆ Seasonal</button>
+                  <button id="compact-toggle" class="menu-toggle-btn">📦 Compact</button>
+                  <div class="d-flex gap-1 align-items-center">
+                    <button id="compare-toggle" class="menu-toggle-btn">⚖️ Compare</button>
+                    <button id="clear-compare-btn" class="clear-compare-btn" title="Clear all compare selections">✕</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" id="seed-list"></div>
+      </div>
+
+      <!-- Plots Tab -->
+      <div class="tab-pane fade" id="plots-tab">
+        <div class="row" id="plot-list"></div>
+      </div>
+
+      <!-- Lamps Tab -->
+      <div class="tab-pane fade" id="lamps-tab">
+        <div class="row" id="lamp-list"></div>
+      </div>
+
+      <!-- Animals Tab -->
+      <div class="tab-pane fade" id="animals-tab">
+        <!-- Animal Subsection Tabs -->
+        <div class="card mb-3">
+          <div class="card-body d-flex flex-wrap gap-2 justify-content-center">
+            <button class="menu-toggle-btn active" id="animals-view-btn" onclick="switchAnimalView('animals')">🐮 Animals</button>
+            <button class="menu-toggle-btn" id="food-view-btn" onclick="switchAnimalView('food')">🍱 Food</button>
+            <button class="menu-toggle-btn" id="products-view-btn" onclick="switchAnimalView('products')">🍶 Products</button>
+          </div>
+        </div>
+
+        <!-- Animals View -->
+        <div id="animals-view" class="animal-subsection">
+          <div class="row" id="animal-list"></div>
+        </div>
+
+        <!-- Food View -->
+        <div id="food-view" class="animal-subsection" style="display: none;">
+          <div class="row" id="food-list"></div>
+        </div>
+
+        <!-- Products View -->
+        <div id="products-view" class="animal-subsection" style="display: none;">
+          <div class="row" id="product-list"></div>
+        </div>
+      </div>
+
+      <!-- Shop Tab -->
+      <div class="tab-pane fade" id="shop-tab">
+        <div class="row" id="shop-list"></div>
+      </div>
+
+      <!-- Strategy Tab -->
+      <div class="tab-pane fade" id="strategy-tab">
+        <div class="card mb-3">
+          <div class="card-body d-flex flex-wrap gap-2 justify-content-center">
+            <button class="menu-toggle-btn" id="bp_per_minute" data-strategy="bp_per_minute">
+              ⚡ Max BP/min (Active Play)
+            </button>
+            <button class="menu-toggle-btn" id="bp_per_batch" data-strategy="bp_per_batch">
+              🎯 Max BP/batch (Idle Play)
+            </button>
+          </div>
+        </div>
+
+        <div id="strategy-summary"></div>
+        <div id="assignments-container"></div>
+        <div id="unused-container"></div>
+        <div id="excluded-container"></div>
+      </div>
+
+
+      <!-- FAQ Tab -->
+      <div class="tab-pane fade" id="faq-tab">        
+        <div class="alert alert-info text-center my-4" role="alert">
+          <p class="mb-0">
+            This is a free to use, fan-made, unofficial project.<br>
+            It is neither affiliated nor endorsed by Chainers.io.<br>
+            Game images and assets © Chainers.io. Used under fair use for informational purposes.
+          </p>
+        </div>
+        <div id="faq-general" class="faq-section">
+          <h4 class="section-header">ℹ️ Info</h4>
+          <div class="accordion" id="accordionGeneral">
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#general-q7">
+                  What do the Seed Card buttons do?
+                </button>
+              </h2>
+              <div id="general-q7" class="accordion-collapse collapse" data-bs-parent="#accordionGeneral">
+                <div class="accordion-body">
+                  The buttons on the top-right of each seed card provide quick access to different functions:
+                  <ul>
+                    <li><strong>⚖️ Compare:</strong> Toggles a "compare" flag on the seed. You can then use the "⚖️ Compare" filter at the top of the Seeds page to show only your selected seeds, making it easy to compare them side-by-side.</li>
+                    <li><strong>⬆️ Upgrade:</strong> Flips the card to show the "Upgrade View". This view calculates and displays the number of common seeds (and their cost) required to upgrade to the next rarity level you don't yet own.</li>
+                    <li><strong>ℹ️ Info:</strong> Flips the card to show the "Info View". This displays detailed stats about the seed, such as its price, BP/m range, and the total cost to craft a Legendary version from scratch.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#general-q2">
+                  What is BP/m?
+                </button>
+              </h2>
+              <div id="general-q2" class="accordion-collapse collapse" data-bs-parent="#accordionGeneral">
+                <div class="accordion-body">
+                  BP/m = Bio Points per minute. A useful measurement to quickly gauge & compare relative Bio Point generation rates.
+                </div>
+              </div>
+            </div>
+            
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#general-q3">
+                  What are Seasonal Seeds?
+                </button>
+              </h2>
+              <div id="general-q3" class="accordion-collapse collapse" data-bs-parent="#accordionGeneral">
+                <div class="accordion-body">
+                  Seasonal seeds are available during specific events or seasons in the game, or sometimes as rewards for completing tasks, missions or games.<br>
+                  Toggle the "Seasonal" button to show or hide them in your planner.<br>
+                  Seasonal Seeds you own remain visible in your planner, and accounted for in your Strategy Planner, whether the Seasonal filter is On or Off.
+                </div>
+              </div>
+            </div>
+            
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#general-q4">
+                  What Animal Food Do I Need?
+                </button>
+              </h2>
+              <div id="general-q4" class="accordion-collapse collapse" data-bs-parent="#accordionGeneral">
+                <div class="accordion-body">
+                  Check the 'Animals -> Food' pages to see how to make food for your Animals.<br><br>
+                  
+                  Animal Food can only be merged using ingredients of the same rarity.<br>
+                  Animals can eat food of any rarity.<br>
+                  The higher the rarity of food, the higher the rarity of the produce.<br>
+                  The higher the rarity of the animal, the more products per batch.
+                </div>
+              </div>
+            </div>
+            
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#general-q5">
+                  How do lamps work?
+                </button>
+              </h2>
+              <div id="general-q5" class="accordion-collapse collapse" data-bs-parent="#accordionGeneral">
+                <div class="accordion-body">
+                  Lamps are placed next to Plots.<br>
+                  Lamps reduce the grow time of crops, have a chance of producing a crop of a higher rarity, and increase the chance of the Plot giving an extra batch.<br>
+                  Each lamp rarity provides a different time reduction & bonus percentage.<br>
+                  Lamps can be placed to overlap 2 Plots, affecting 2 crops at once.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#general-q8">
+                  How do I exclude a seed from the strategy?
+                </button>
+              </h2>
+              <div id="general-q8" class="accordion-collapse collapse" data-bs-parent="#accordionGeneral">
+                <div class="accordion-body">
+                  On the <strong>📊 Strategy</strong> tab, you can temporarily remove a seed from the calculation if you don't want to use it in your current plan.
+                  <ul>
+                    <li>To exclude a seed, click the <strong>🚫</strong> button on its card in either the "Optimal Assignments" or "Unused Seeds" section.</li>
+                    <li>The strategy will automatically recalculate, and the seed will move to the "Excluded Seeds" section at the bottom.</li>
+                    <li>To re-include a seed, simply click the <strong>➕</strong> button on its card in the "Excluded Seeds" section.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#general-q6">
+                  How does the Cropper work?
+                </button>
+              </h2>
+              <div id="general-q6" class="accordion-collapse collapse" data-bs-parent="#accordionGeneral">
+                <div class="accordion-body">
+                  The Cropper is a drone which hovers around your farm harvesting crops when they're ready and adding the products & seeds back into your inventory.<br>
+                  The Cropper also has its own inventory which players can add Seeds &/or Animal Food into, which the Cropper will then plant in the next available Plot, &/or re-feed your animals after collecting their produce.<br><br>
+
+                  The Cropper has 10 inventory slots.<br>
+                  Each inventory slot can hold upto 10 of the same item type.<br>
+                  e.g. If you have 10 of the same seeds, of the same rarity, they would fit in 1 inventory slot. Whereas if you had 10 seeds or different types/rarities they use all 10 inventory slots.<br><br>
+
+                  <strong>Notes:</strong><br>
+                  The Cropper puts harvested seeds & products in <strong>your</strong> inventory, not its own, so cannot re-plant things on a loop.<br>
+                  The player adds what they can to the Croppers inventory and it will plant them when it can, after harvesting what's ready, until it's empty.<br>
+                  The Cropper plants whatever is next in its inventory in whichever Plot is next available.
+                </div>
+              </div>
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </main>
+
+  
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        ♾ aS2o
+      </div>
+      <div class="footer-links">
+        <!-- <a href="#" class="footer-link">Other Projects</a> -->
+        <a href="#" class="footer-link" data-bs-toggle="modal" data-bs-target="#donateModal">💝 Donate</a>
+      </div>
+      <div class="footer-info">
+         v1.0.1
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Save Profile Name Modal -->
+  <div class="modal fade" id="saveModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Save Profile</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <label for="profile-name-input" class="form-label">Profile Name:</label>
+          <input type="text" class="form-control" id="profile-name-input" placeholder="Enter profile name">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="confirm-save-btn">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Donate Modal -->
+  <div class="modal fade" id="donateModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">💝 Support</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>For those whom wish to..</p>
+          
+          <div class="donate-section">
+            <h6>🪙 Donations</h6>
+                        
+            <div class="crypto-address mb-3">
+              <label class="small text-muted">BNB (BSC)</label>
+              <div class="input-group">
+                <input type="text" class="form-control form-control-sm" value="0xE3e8887B543c1235983B0bf5cdc0B9a0a9915b0C" readonly id="bnb-address">
+                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('bnb-address')">📋 Copy</button>
+              </div>
+            </div>
+          
+          <div class="alert alert-info mt-3">
+            <small>Thank you! 🙏</small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="scripts/script.js"></script>
+  
+</body>
+</html>
