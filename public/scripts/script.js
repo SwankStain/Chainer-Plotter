@@ -1664,6 +1664,8 @@ window.toggleShopSortDirection = toggleShopSortDirection;
 window.toggleShopInStockOnly = toggleShopInStockOnly;
 window.copyToClipboard = copyToClipboard;
 window.switchAnimalView = switchAnimalView;
+window.exportProfile = exportProfile;
+window.importProfile = importProfile;
 window.toggleSeedExclusion = toggleSeedExclusion;
 
 // ==================== TOTALS & STRATEGY ====================
@@ -1778,7 +1780,24 @@ function updateTotals() {
   document.getElementById('nav-total-plots').textContent = totalPlots;
   document.getElementById('nav-total-lamps').textContent = totalLamps;
   document.getElementById('nav-total-animals').textContent = totalAnimals;
-  document.getElementById('nav-total-value').textContent = `${nf.format(totalValue)}`;
+  
+  const stockValueEl = document.getElementById('nav-total-value');
+  if (stockValueEl) {
+    stockValueEl.textContent = `${nf.format(totalValue)}`;
+  }
+
+  const stockValueItem = document.getElementById('stock-value-stat-item');
+  if (stockValueItem) {
+    const usdtValue = totalValue * 0.025;
+    const USDTlabel = `$${usdtValue.toFixed(2)} USDT`;
+
+    // Get the tooltip instance and update its content directly.
+    const tooltip = bootstrap.Tooltip.getInstance(stockValueItem);
+    if (tooltip) {
+      tooltip.setContent({ '.tooltip-inner': USDTlabel });
+    }
+  }
+
   updateStrategy();
 }
 
@@ -2311,15 +2330,6 @@ function confirmSave() {
 // ==================== EVENT LISTENERS ====================
 
 function setupEventListeners() {
-  // Farm profile selector
-  const farmSelect = document.getElementById('farm-select');
-  if (farmSelect) {
-    farmSelect.addEventListener('change', (e) => {
-      farmName = e.target.value;
-      loadInventory();
-    });
-  }
-  
   // Save button - opens modal
   const saveBtn = document.getElementById('save-btn');
   if (saveBtn) {
@@ -2342,18 +2352,26 @@ function setupEventListeners() {
     });
   }
   
-  // Load button
-  const loadBtn = document.getElementById('load-btn');
-  if (loadBtn) {
-    loadBtn.addEventListener('click', loadInventory);
-  }
-  
   // Delete button
   const deleteBtn = document.getElementById('delete-btn');
   if (deleteBtn) {
     deleteBtn.addEventListener('click', deleteProfile);
   }
   
+  // Sort selector
+
+  // Export button
+  const exportBtn = document.getElementById('export-btn');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', exportProfile);
+  }
+
+  // Import button
+  const importBtn = document.getElementById('import-btn');
+  if (importBtn) {
+    importBtn.addEventListener('click', importProfile);
+  }
+
   // Sort selector
   const sortSelect = document.getElementById('sort-select');
   if (sortSelect) {
@@ -2469,6 +2487,10 @@ function setupEventListeners() {
 async function initialize() {
   console.log('Initializing Chainers Plot Planner...');
   
+  // Initialize Bootstrap tooltips FIRST, so they exist before any updates.
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
   await loadAllData();
   initializeQuantities();
   loadSettings();
@@ -2538,6 +2560,7 @@ function loadInventory() {
   
   updateUIControls();
   updateAllLists();
+  updateFarmSelect(); // Refresh the profile dropdown UI
   updateTotals();
   
   showToast('Profile loaded', 'info');
@@ -2559,23 +2582,38 @@ function loadSettings() {
 }
 
 function updateFarmSelect() {
-  const select = document.getElementById('farm-select');
-  if (!select) return;
-  
-  select.innerHTML = '';
+  const profileLabel = document.getElementById('current-profile-label');
+  const profileListContainer = document.getElementById('profile-list-container');
+  if (!profileLabel || !profileListContainer) return;
+
+  profileLabel.textContent = `Current: ${farmName}`;
+  profileListContainer.innerHTML = '';
   
   const farms = ['Default', ...Object.keys(localStorage)
     .filter(k => k.startsWith('farm_'))
     .map(k => k.replace('farm_', '').replace(/_/g, ' '))
     .sort()];
   
-  farms.forEach(name => {
-    const opt = document.createElement('option');
-    opt.value = name;
-    opt.textContent = name;
-    if (name === farmName) opt.selected = true;
-    select.appendChild(opt);
-  });
+  const otherFarms = farms.filter(name => name !== farmName);
+
+  if (otherFarms.length > 0) {
+    otherFarms.forEach(name => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.className = 'dropdown-item';
+      a.href = '#';
+      a.textContent = name;
+      a.onclick = (e) => {
+        e.preventDefault();
+        farmName = name;
+        loadInventory();
+      };
+      li.appendChild(a);
+      profileListContainer.appendChild(li);
+    });
+  } else {
+    profileListContainer.innerHTML = '<li><span class="dropdown-item-text text-muted small ps-3">No other profiles</span></li>';
+  }
 }
 
 

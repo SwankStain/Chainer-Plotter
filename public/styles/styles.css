@@ -209,6 +209,20 @@ input[type=number] {
   transform: translateY(-1px);
 }
 
+.btn-secondary {
+  background: #6c757d;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border-radius: var(--radius);
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+}
+
 
 /* Sort Direction Button */
 .sort-direction-btn {
