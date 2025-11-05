@@ -227,22 +227,27 @@ function createSeedCard(seed) {
     // If all rarities have the same grow time, just display it.
     time.textContent = formatTime(growTimes[0]);
   } else if (ownedRarities.length > 0) {
-    // User owns seeds with varying grow times. Display the time for the highest owned rarity.
-    const highestOwnedRarity = RARITIES.slice().reverse().find(r => ownedRarities.includes(r));
-    const primaryTime = seedData[highestOwnedRarity].grow_time;
+    // User owns seeds. Check for varying grow times among owned seeds.
+    const ownedTimeData = [...new Set(ownedRarities.map(r => seedData[r].grow_time))].sort((a, b) => a - b);
 
-    // Get other unique grow times from owned rarities
-    const otherTimes = [...new Set(
-      ownedRarities
-        .filter(r => r !== highestOwnedRarity)
-        .map(r => seedData[r].grow_time)
-    )].sort((a, b) => a - b);
+    if (ownedTimeData.length <= 1) {
+      // If all owned seeds have the same grow time, display it simply.
+      time.textContent = formatTime(ownedTimeData[0]);
+    } else {
+      // If owned seeds have multiple different grow times, format with colors.
+      const primaryTime = ownedTimeData[0];
+      const secondaryTimes = ownedTimeData.slice(1);
 
-    let timeText = formatTime(primaryTime);
-    if (otherTimes.length > 0) {
-      timeText += ` (${otherTimes.map(formatTime).join(', ')})`;
+      // For each secondary time, find the highest rarity that has it.
+      const secondaryTimeStrings = secondaryTimes.map(t => {
+        const rarityForTime = RARITIES.slice().reverse().find(r => 
+          ownedRarities.includes(r) && seedData[r].grow_time === t
+        );
+        return `<span class="text-${rarityForTime.toLowerCase()}">${formatTime(t)}</span>`;
+      });
+
+      time.innerHTML = `${formatTime(primaryTime)} (${secondaryTimeStrings.join(', ')})`;
     }
-    time.textContent = timeText;
   } else {
     // User does not own any, show the full range for seeds with varying times.
     const minTime = Math.min(...growTimes);
