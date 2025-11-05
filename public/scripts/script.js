@@ -193,7 +193,7 @@ function createSeedCard(seed) {
   const cardView = viewMatch ? viewMatch.split('_view_')[1] : 'default';
   
   const card = document.createElement('div');
-  card.className = 'col-md-6 col-lg-4 mb-3';
+  card.className = 'col-md-6 col-lg-3 mb-3';
   
   const cardEl = document.createElement('div');
   cardEl.className = `card rarity-${highestRarity.toLowerCase()}`;
@@ -1380,16 +1380,21 @@ function createRarityRow(seed, rarity) {
   const row = document.createElement('div');
   row.className = 'rarity-row';
   
+  const infoWrapper = document.createElement('div');
+  infoWrapper.className = 'rarity-info';
+  
   const label = document.createElement('span');
   label.className = `rarity-label text-${rarity.toLowerCase()}`;
   label.textContent = rarity;
-  row.appendChild(label);
+  infoWrapper.appendChild(label);
   
   const bpDisplay = document.createElement('div');
   bpDisplay.className = 'bp-display';
   bpDisplay.innerHTML = `<span class="bp-value">🍀${bp}</span> <span class="bp-rate">${bpMin}/m</span>`;
-  row.appendChild(bpDisplay);
+  infoWrapper.appendChild(bpDisplay);
   
+  row.appendChild(infoWrapper);
+
   const controls = document.createElement('div');
   controls.className = 'qty-controls';
   
