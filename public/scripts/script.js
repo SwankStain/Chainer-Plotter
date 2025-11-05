@@ -219,12 +219,32 @@ function createSeedCard(seed) {
   time.className = 'ms-auto small text-muted';
 
   const seedData = SEED_DATA[seed];
+  const ownedRarities = RARITIES.filter(r => (seedQuantities[`${seed}_${r}`] || 0) > 0);
   const growTimes = RARITIES.map(r => seedData[r].grow_time);
   const allSameTime = growTimes.every(t => t === growTimes[0]);
 
   if (allSameTime) {
+    // If all rarities have the same grow time, just display it.
     time.textContent = formatTime(growTimes[0]);
+  } else if (ownedRarities.length > 0) {
+    // User owns seeds with varying grow times. Display the time for the highest owned rarity.
+    const highestOwnedRarity = RARITIES.slice().reverse().find(r => ownedRarities.includes(r));
+    const primaryTime = seedData[highestOwnedRarity].grow_time;
+
+    // Get other unique grow times from owned rarities
+    const otherTimes = [...new Set(
+      ownedRarities
+        .filter(r => r !== highestOwnedRarity)
+        .map(r => seedData[r].grow_time)
+    )].sort((a, b) => a - b);
+
+    let timeText = formatTime(primaryTime);
+    if (otherTimes.length > 0) {
+      timeText += ` (${otherTimes.map(formatTime).join(', ')})`;
+    }
+    time.textContent = timeText;
   } else {
+    // User does not own any, show the full range for seeds with varying times.
     const minTime = Math.min(...growTimes);
     const maxTime = Math.max(...growTimes);
     time.textContent = `${formatTime(minTime)} - ${formatTime(maxTime)}`;
@@ -313,10 +333,15 @@ function SeedInfoContent(seedName) {
     const maxTime = Math.max(...growTimes);
     growTimeText = `${formatTime(minTime)} - ${formatTime(maxTime)}`;
   }
+
+  const bpMinValues = RARITIES.map(r => seed[r].bio_points / seed[r].grow_time);
+  const minBpMin = Math.min(...bpMinValues);
+  const maxBpMin = Math.max(...bpMinValues);
+
   container.innerHTML = `
     <div class="info-row"><strong>Grow Time:</strong> ${growTimeText}</div>
     <div class="info-row"><strong>Bio Points Range:</strong> 🍀${seed.Common.bio_points} - ${seed.Legendary.bio_points} per harvest</div>
-    <div class="info-row"><strong>BP/m Range:</strong> 🍀${(seed.Common.bio_points / seed.Common.grow_time).toFixed(1)} - ${(seed.Legendary.bio_points / seed.Legendary.grow_time).toFixed(1)} per minute</div>
+    <div class="info-row"><strong>BP/m Range:</strong> 🍀${minBpMin.toFixed(1)} - ${maxBpMin.toFixed(1)} per minute</div>
     <div class="info-row"><strong>Seed Price CFB:</strong> ${seed.price ? `🪙${seed.price}` : 'Not available'}</div>
     <div class="info-row"><strong>Seed Price USDT:</strong> ${seed.usdt ? `$${seed.usdt}` : 'Not available'}</div>
     <div class="info-row"><strong>Total Cost per Legendary:</strong> ${seed.price ? `🪙${nf.format(16 * seed.price)} / ` : ' '} ${seed.usdt ? `$${nf.format(16 * seed.usdt)}` : ' '}</div>
@@ -1427,6 +1452,7 @@ function updateSeedList() {
     .map(s => ({
       name: s,
       grow_time: SEED_DATA[s].Common.grow_time,
+      // Correctly calculate BP/m for each rarity using its own grow time
       common_bp: SEED_DATA[s].Common.bio_points / SEED_DATA[s].Common.grow_time,
       uncommon_bp: SEED_DATA[s].Uncommon.bio_points / SEED_DATA[s].Uncommon.grow_time,
       rare_bp: SEED_DATA[s].Rare.bio_points / SEED_DATA[s].Rare.grow_time,
