@@ -460,6 +460,14 @@ input[type=number] {
   flex: 1;
 }
 
+.seed-name-filter-wrapper {
+  margin-left: auto;
+  min-width: 180px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 .shop-sort-select {
   min-width: 120px;
   max-width: 150px;
@@ -487,6 +495,26 @@ input[type=number] {
   .shop-sort-select {
     flex: 1;
     max-width: none;
+  }
+  .seed-name-filter-wrapper {
+    margin-left: 0;
+    max-width: none;
+  }
+  
+  .shop-name-filter-wrapper {
+    margin-left: auto;
+    min-width: 180px;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .shop-name-filter-wrapper {
+    margin-left: 0;
+    max-width: none;
+  }
+
+  #clear-seed-name-filter-btn {
+    right: 0.5rem;
   }
 }
 

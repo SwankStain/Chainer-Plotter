@@ -21,17 +21,17 @@
           <div class="ms-auto">
             <div class="dropdown">
               <button class="btn btn-primary dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                👤 Profile
+                Profile
               </button>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                 <li><h6 class="dropdown-header" id="current-profile-label">Current: Default</h6></li>
                 <div id="profile-list-container"></div>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" id="save-btn">💾 Save Current</a></li>
-                <li><a class="dropdown-item" href="#" id="export-btn">📤 Export Current</a></li>
-                <li><a class="dropdown-item" href="#" id="import-btn">📥 Import New</a></li>
+                <li><a class="dropdown-item" href="#" id="save-btn">💾 Save</a></li>
+                <li><a class="dropdown-item" href="#" id="export-btn">📤 Export Profile</a></li>
+                <li><a class="dropdown-item" href="#" id="import-btn">📥 Import Profile</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-danger" href="#" id="delete-btn">🗑️ Delete Current</a></li>
+                <li><a class="dropdown-item text-danger" href="#" id="delete-btn">🗑️ Delete Profile</a></li>
               </ul>
             </div>
           </div>
@@ -139,6 +139,10 @@
                   <div class="d-flex gap-1 align-items-center">
                     <button id="compare-toggle" class="menu-toggle-btn">⚖️ Compare</button>
                     <button id="clear-compare-btn" class="clear-compare-btn" title="Clear all compare selections">✕</button>
+                  </div>
+                  <div class="seed-name-filter-wrapper">
+                    <input type="text" id="seed-name-filter" class="form-control form-control-sm" placeholder="Filter by name...">
+                    <button id="clear-seed-name-filter-btn" class="clear-compare-btn" title="Clear name filter" style="display: none;">✕</button>
                   </div>
                 </div>
               </div>
@@ -364,7 +368,7 @@
         <a href="#" class="footer-link" data-bs-toggle="modal" data-bs-target="#donateModal">💝 Donate</a>
       </div>
       <div class="footer-info">
-         v1.1.0
+         v1.2.0
       </div>
     </div>
   </footer>

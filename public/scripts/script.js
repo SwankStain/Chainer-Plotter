@@ -30,11 +30,13 @@ let shopFilter = 'all';
 let shopSort = 'rarity';
 let shopSortDesc = false;
 let sortDescending = false;
+let shopNameFilter = '';
 let shopShowInStockOnly = true;
 let sortVar = 'grow_time';
 let showSeasonal = false;
 let showCompareOnly = false;
 let showCompactMode = false;
+let seedNameFilter = '';
 let excludedSeeds = new Set();
 let strategyVar = 'bp_per_batch';
 let autosaveTimer = null;
@@ -1452,12 +1454,15 @@ function updateSeedList() {
   list.innerHTML = '';
   
   let seeds = Object.keys(SEED_DATA)
-  .filter(seed => {
+  .filter(seed => {    
+    const nameMatches = seed.toLowerCase().startsWith(seedNameFilter.toLowerCase());
+    if (seedNameFilter && nameMatches) return true; // If name filter matches, always show
+
     const hasQuantity = RARITIES.some(r => seedQuantities[`${seed}_${r}`] > 0);
     const passesCompactFilter = !showCompactMode || hasQuantity;
-    const passesSeasonalFilter = showSeasonal || !seasonalFlags[seed] || hasQuantity;
+    const passesSeasonalFilter = showSeasonal || !seasonalFlags[seed] || hasQuantity;    
     const passesCompareFilter = !showCompareOnly || compareMode[seed];
-    return passesCompactFilter && passesSeasonalFilter && passesCompareFilter;
+    return nameMatches && passesCompactFilter && passesSeasonalFilter && passesCompareFilter;
   })
     .map(s => ({
       name: s,
@@ -1538,9 +1543,12 @@ function updateShopList() {
   const list = document.getElementById('shop-list');
   if (!list) return;
   
-  list.innerHTML = '';
-  
-  // Create filter buttons
+  if (list.innerHTML !== '') { // If filters are already there, just re-render items
+    renderShopItems();
+    return;
+  }
+
+  // Create filter bar
   const filterSection = document.createElement('div');
   filterSection.className = 'col-12 mb-3';
   filterSection.innerHTML = `
@@ -1565,9 +1573,13 @@ function updateShopList() {
               <button class="menu-toggle-btn ${shopShowInStockOnly ? 'active' : ''}" onclick="toggleShopInStockOnly()" title="Show only in-stock items">
                 ${shopShowInStockOnly ? '✅' : '📦'} Available In Shop
               </button>
+              <div class="seed-name-filter-wrapper shop-name-filter-wrapper">
+                <input type="text" id="shop-name-filter" class="form-control form-control-sm" placeholder="Filter by name..." value="${shopNameFilter}" style="padding-right: 2rem;">
+                <button id="clear-shop-name-filter-btn" class="clear-compare-btn" title="Clear name filter" style="display: ${shopNameFilter ? 'flex' : 'none'}; position: absolute; right: 0.5rem;">✕</button>
+              </div>
             </div>
           </div>
-          
+
           <div class="filter-group">
             <label class="filter-label">Sort:</label>
             <div class="filter-buttons">
@@ -1586,34 +1598,79 @@ function updateShopList() {
     </div>
   `;
   list.appendChild(filterSection);
-  
+
+  // Add event listeners for the new filter
+  const shopNameFilterInput = document.getElementById('shop-name-filter');
+  const clearShopNameFilterBtn = document.getElementById('clear-shop-name-filter-btn');
+  if (shopNameFilterInput && clearShopNameFilterBtn) {
+    shopNameFilterInput.addEventListener('input', (e) => {
+      shopNameFilter = e.target.value;
+      clearShopNameFilterBtn.style.display = shopNameFilter ? 'flex' : 'none';
+      renderShopItems();
+    });
+    clearShopNameFilterBtn.addEventListener('click', () => {
+      shopNameFilter = '';
+      shopNameFilterInput.value = '';
+      clearShopNameFilterBtn.style.display = 'none';
+      renderShopItems();
+      shopNameFilterInput.focus();
+    });
+  }
   if (!SHOP_DATA || Object.keys(SHOP_DATA).length === 0) {
     list.innerHTML += '<div class="col-12"><div class="alert alert-info">No shop data available</div></div>';
     return;
   }
+
+  // Collect and filter items
+  let items = [];
   
+  // Create a container for the items
+  const itemsContainer = document.createElement('div');
+  itemsContainer.id = 'shop-items-container';
+  itemsContainer.className = 'row';
+  list.appendChild(itemsContainer);
+
+  // Initial render of items
+  renderShopItems();
+}
+
+function renderShopItems() {
+  const itemsContainer = document.getElementById('shop-items-container');
+  if (!itemsContainer) return;
+
+  itemsContainer.innerHTML = '';
+
   // Collect and filter items
   let items = [];
   Object.entries(SHOP_DATA).forEach(([category, categoryItems]) => {
     if (shopFilter === 'all' || shopFilter === category) {
       Object.entries(categoryItems).forEach(([name, data]) => {
+        const nameMatches = !shopNameFilter || name.toLowerCase().startsWith(shopNameFilter.toLowerCase());
+        
+        // If name filter is active and matches, always show the item.
+        if (shopNameFilter && nameMatches) {
+          items.push({ category, name, data });
+          return; // Go to the next item
+        }
+
         // Apply in-stock filter
-        if (!shopShowInStockOnly || (data.in_stock && data.price || data.usdt > 0)) {
+        const passesInStockFilter = !shopShowInStockOnly || (data.in_stock && (data.price > 0 || data.usdt > 0));
+
+        if (passesInStockFilter && nameMatches) {
           items.push({ category, name, data });
         }
       });
     }
   });
-  
+
   // Sort items
   items = sortShopItems(items);
-  
+
   // Render items
   items.forEach(({ category, name, data }) => {
-    list.appendChild(ShopCard(category, name, data));
+    itemsContainer.appendChild(ShopCard(category, name, data));
   });
 }
-
 
 function filterShop(category) {
   shopFilter = category;
@@ -2434,6 +2491,31 @@ function setupEventListeners() {
       updateSeedList();
       autosave();
     });
+  }
+
+  // Seed name filter input
+  const seedNameFilterInput = document.getElementById('seed-name-filter');
+  const clearSeedNameFilterBtn = document.getElementById('clear-seed-name-filter-btn');
+  if (seedNameFilterInput && clearSeedNameFilterBtn) {
+    seedNameFilterInput.addEventListener('input', (e) => {
+      seedNameFilter = e.target.value;
+      clearSeedNameFilterBtn.style.display = seedNameFilter ? 'flex' : 'none';
+      updateSeedList();
+      // Not saving this to profile, it's a temporary session filter
+    });
+
+    clearSeedNameFilterBtn.addEventListener('click', () => {
+      seedNameFilter = '';
+      seedNameFilterInput.value = '';
+      clearSeedNameFilterBtn.style.display = 'none';
+      updateSeedList();
+      seedNameFilterInput.focus();
+    });
+
+    // Also adjust padding on input to prevent text from going under the button
+    seedNameFilterInput.style.paddingRight = '2rem';
+    clearSeedNameFilterBtn.style.position = 'absolute';
+    clearSeedNameFilterBtn.style.right = '0.5rem';
   }
 
   // Sort direction button - FIX
