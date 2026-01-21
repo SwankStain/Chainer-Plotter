@@ -569,7 +569,7 @@
     },
     "Patisson": {
       "Common": {
-        "grow_time": 2400,
+        "grow_time": 240,
         "bio_points": 24
       },
       "Uncommon": {
