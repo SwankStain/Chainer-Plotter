@@ -1,32 +1,5 @@
 {
   "seeds": {
-    "Bamboo": {
-      "Common": {
-        "grow_time": 720,
-        "bio_points": 0
-      },
-      "Uncommon": {
-        "grow_time": 720,
-        "bio_points": 0
-      },
-      "Rare": {
-        "grow_time": 720,
-        "bio_points": 0
-      },
-      "Epic": {
-        "grow_time": 720,
-        "bio_points": 0
-      },
-      "Legendary": {
-        "grow_time": 720,
-        "bio_points": 0
-      },
-      "in_stock": false,
-      "price": 0,
-      "usdt": 0,
-      "seasonal": true,
-      "icon": "\ud83e\uded1"
-    },
     "Bell Pepper": {
       "Common": {
         "grow_time": 63,
@@ -138,23 +111,23 @@
     "Cabbage": {
       "Common": {
         "grow_time": 13,
-        "bio_points": 6
+        "bio_points": 3
       },
       "Uncommon": {
         "grow_time": 13,
-        "bio_points": 12
+        "bio_points": 5
       },
       "Rare": {
         "grow_time": 13,
-        "bio_points": 21
+        "bio_points": 8
       },
       "Epic": {
         "grow_time": 13,
-        "bio_points": 42
+        "bio_points": 13
       },
       "Legendary": {
         "grow_time": 13,
-        "bio_points": 85
+        "bio_points": 19
       },
       "in_stock": true,
       "price": 42,
@@ -219,23 +192,23 @@
     "Corn": {
       "Common": {
         "grow_time": 6,
-        "bio_points": 3
+        "bio_points": 1
       },
       "Uncommon": {
         "grow_time": 6,
-        "bio_points": 5
+        "bio_points": 2
       },
       "Rare": {
         "grow_time": 6,
-        "bio_points": 9
+        "bio_points": 4
       },
       "Epic": {
         "grow_time": 6,
-        "bio_points": 19
+        "bio_points": 6
       },
       "Legendary": {
         "grow_time": 6,
-        "bio_points": 41
+        "bio_points": 8
       },
       "in_stock": false,
       "price": 0,
@@ -405,33 +378,6 @@
       "seasonal": true,
       "icon": "\ud83c\udf3f"
     },
-    "Hyacinth": {
-      "Common": {
-        "grow_time": 200,
-        "bio_points": 0
-      },
-      "Uncommon": {
-        "grow_time": 200,
-        "bio_points": 0
-      },
-      "Rare": {
-        "grow_time": 200,
-        "bio_points": 0
-      },
-      "Epic": {
-        "grow_time": 200,
-        "bio_points": 0
-      },
-      "Legendary": {
-        "grow_time": 200,
-        "bio_points": 0
-      },
-      "in_stock": false,
-      "price": 0,
-      "usdt": 0,
-      "seasonal": true,
-      "icon": "\ud83c\udf3f"
-    },
     "Jack Pumpkin": {
       "Common": {
         "grow_time": 1440,
@@ -511,33 +457,6 @@
       "price": 0,
       "usdt": 2,
       "seasonal": false,
-      "icon": "\ud83c\udf3c"
-    },
-    "Marigold": {
-      "Common": {
-        "grow_time": 2,
-        "bio_points": 41
-      },
-      "Uncommon": {
-        "grow_time": 2,
-        "bio_points": 80
-      },
-      "Rare": {
-        "grow_time": 2,
-        "bio_points": 163
-      },
-      "Epic": {
-        "grow_time": 2,
-        "bio_points": 325
-      },
-      "Legendary": {
-        "grow_time": 2,
-        "bio_points": 646
-      },
-      "in_stock": false,
-      "price": 0,
-      "usdt": 0,
-      "seasonal": true,
       "icon": "\ud83c\udf3c"
     },
     "Melon": {
@@ -648,6 +567,33 @@
       "seasonal": false,
       "icon": "\ud83e\udedb"
     },
+    "Patisson": {
+      "Common": {
+        "grow_time": 2400,
+        "bio_points": 24
+      },
+      "Uncommon": {
+        "grow_time": 230,
+        "bio_points": 115
+      },
+      "Rare": {
+        "grow_time": 220,
+        "bio_points": 528
+      },
+      "Epic": {
+        "grow_time": 210,
+        "bio_points": 1575
+      },
+      "Legendary": {
+        "grow_time": 200,
+        "bio_points": 3090
+      },
+      "in_stock": false,
+      "price": 0,
+      "usdt": 0,
+      "seasonal": true,
+      "icon": "\ud83e\udedb"
+    },
     "Pineapple": {
       "Common": {
         "grow_time": 420,
@@ -705,23 +651,23 @@
     "Radish": {
       "Common": {
         "grow_time": 8,
-        "bio_points": 4
+        "bio_points": 2
       },
       "Uncommon": {
         "grow_time": 8,
-        "bio_points": 8
+        "bio_points": 4
       },
       "Rare": {
         "grow_time": 8,
-        "bio_points": 15
+        "bio_points": 6
       },
       "Epic": {
         "grow_time": 8,
-        "bio_points": 30
+        "bio_points": 8
       },
       "Legendary": {
         "grow_time": 8,
-        "bio_points": 57
+        "bio_points": 10
       },
       "in_stock": false,
       "price": 0,
